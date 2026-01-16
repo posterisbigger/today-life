@@ -33,7 +33,7 @@
 
 ```bash
 # 添加远程仓库地址（将your-username替换为您的GitHub用户名，your-repo-name替换为您创建的仓库名称）
-git remote add origin https://github.com/your-username/your-repo-name.git
+git remote add origin https://github.com/posterisbigger/today-life.git
 
 # 推送本地仓库到GitHub
 git push -u origin master
