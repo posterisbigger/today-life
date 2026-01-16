@@ -1,0 +1,12 @@
+{
+  "name": "project003_html",
+  "version": "1.0.0",
+  "description": "要让任何地方的人都能访问您的网站，您需要将HTML文件部署到互联网上的服务器。以下是使用Netlify进行免费部署的详细步骤：",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

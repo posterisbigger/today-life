@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>今日生活</title>
+    <style>
+        /* 全局样式重置 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* 全局字体和背景 */
+        body {
+            font-family: 'Microsoft YaHei UI', 'Comic Sans MS', sans-serif;
+            background-color: #FFF8DC;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            color: #333;
+        }
+
+        /* 容器 */
+        .container {
+            width: 100%;
+            max-width: 400px;
+            padding: 20px;
+        }
+
+        /* 登录/注册卡片 */
+        .auth-card {
+            background-color: #fff;
+            border-radius: 20px;
+            box-shadow: 0 4px 20px rgba(255, 165, 0, 0.1);
+            padding: 30px;
+            text-align: center;
+        }
+
+        /* 标题样式 */
+        h1 {
+            color: #FFA500;
+            font-size: 28px;
+            margin-bottom: 20px;
+            font-weight: normal;
+        }
+
+        /* 输入框容器 */
+        .input-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        /* 输入框标签 */
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #666;
+            font-size: 14px;
+        }
+
+        /* 输入框样式 */
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #FFE4B5;
+            border-radius: 15px;
+            font-size: 16px;
+            font-family: inherit;
+            transition: all 0.3s ease;
+            outline: none;
+        }
+
+        /* 输入框聚焦效果 */
+        input:focus {
+            border-color: #FFA500;
+            box-shadow: 0 0 0 3px rgba(255, 165, 0, 0.1);
+        }
+
+        /* 按钮样式 */
+        button {
+            width: 100%;
+            padding: 14px;
+            background-color: #FFA500;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            font-size: 18px;
+            font-family: inherit;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+        }
+
+        /* 按钮悬停效果 */
+        button:hover {
+            background-color: #FF8C00;
+            transform: scale(1.05);
+        }
+
+        /* 按钮点击效果 */
+        button:active {
+            transform: scale(0.98);
+        }
+
+        /* 核心按钮样式 */
+        #coreButton {
+            background-color: #FFD700;
+            color: #333;
+            font-size: 24px;
+            padding: 20px;
+            border-radius: 50px;
+            box-shadow: 0 6px 20px rgba(255, 215, 0, 0.3);
+        }
+
+        /* 核心按钮悬停效果 */
+        #coreButton:hover {
+            background-color: #FFC107;
+            transform: scale(1.08);
+        }
+
+        /* 隐藏元素 */
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 登录/注册界面 -->
+        <div id="authContainer" class="auth-card">
+            <h1>今日生活</h1>
+            <div class="input-group">
+                <label for="username">用户名</label>
+                <input type="text" id="username" placeholder="请输入用户名">
+            </div>
+            <div class="input-group">
+                <label for="password">密码</label>
+                <input type="password" id="password" placeholder="请输入密码">
+            </div>
+            <button id="authButton">登录/注册</button>
+        </div>
+
+        <!-- 核心功能界面 -->
+        <div id="coreContainer" class="hidden">
+            <button id="coreButton">点击开始</button>
+        </div>
+    </div>
+
+    <script>
+        // 获取DOM元素
+        const authContainer = document.getElementById('authContainer');
+        const coreContainer = document.getElementById('coreContainer');
+        const usernameInput = document.getElementById('username');
+        const passwordInput = document.getElementById('password');
+        const authButton = document.getElementById('authButton');
+        const coreButton = document.getElementById('coreButton');
+
+        // 从localStorage获取用户信息
+        const getUserInfo = () => {
+            const userInfo = localStorage.getItem('userInfo');
+            return userInfo ? JSON.parse(userInfo) : null;
+        };
+
+        // 从localStorage获取失败次数
+        const getFailCount = () => {
+            return parseInt(localStorage.getItem('failCount')) || 0;
+        };
+
+        // 设置失败次数
+        const setFailCount = (count) => {
+            localStorage.setItem('failCount', count.toString());
+        };
+
+        // 获取核心按钮点击次数
+        const getClickCount = () => {
+            return parseInt(localStorage.getItem('clickCount')) || 0;
+        };
+
+        // 设置核心按钮点击次数
+        const setClickCount = (count) => {
+            localStorage.setItem('clickCount', count.toString());
+        };
+
+        // 进入主界面
+        const enterMainPage = () => {
+            authContainer.classList.add('hidden');
+            coreContainer.classList.remove('hidden');
+        };
+
+        // 注册功能
+        const register = (username, password) => {
+            const userInfo = {
+                username,
+                password
+            };
+            localStorage.setItem('userInfo', JSON.stringify(userInfo));
+            enterMainPage();
+        };
+
+        // 登录功能
+        const login = (username, password) => {
+            const userInfo = getUserInfo();
+            if (userInfo.username === username && userInfo.password === password) {
+                enterMainPage();
+                return true;
+            } else {
+                return false;
+            }
+        };
+
+        // 登录/注册按钮点击事件
+        authButton.addEventListener('click', () => {
+            const username = usernameInput.value.trim();
+            const password = passwordInput.value.trim();
+
+            // 简单验证输入
+            if (!username || !password) {
+                alert('请输入用户名和密码');
+                return;
+            }
+
+            const userInfo = getUserInfo();
+            if (!userInfo) {
+                // 注册
+                register(username, password);
+            } else {
+                // 登录
+                const success = login(username, password);
+                if (success) {
+                    // 登录成功，重置失败次数
+                    setFailCount(0);
+                } else {
+                    // 登录失败，更新失败次数
+                    const failCount = getFailCount() + 1;
+                    setFailCount(failCount);
+
+                    // 显示失败提示
+                    if (failCount === 3) {
+                        alert('慢一点，把心放下来。做一个勇敢的试错者，而不是一个正确的退缩者。');
+                    } else {
+                        alert('用户名或密码不匹配，请重新输入');
+                    }
+                }
+            }
+        });
+
+        // 核心按钮点击事件
+        coreButton.addEventListener('click', () => {
+            const clickCount = getClickCount() + 1;
+            setClickCount(clickCount);
+
+            if (clickCount === 1) {
+                alert('今天会是美好的一天');
+            } else {
+                alert('请不要把时间浪费在这里，请开始你精彩的一天吧');
+            }
+        });
+
+        // 页面加载时检查是否有用户信息，如果有则直接进入主界面
+        // 这里注释掉是因为需求要求每次都要登录
+        // const userInfo = getUserInfo();
+        // if (userInfo) {
+        //     enterMainPage();
+        // }
+    </script>
+</body>
+</html>
