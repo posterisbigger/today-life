@@ -15,7 +15,8 @@
         /* 全局字体和背景 */
         body {
             font-family: 'Microsoft YaHei UI', 'Comic Sans MS', sans-serif;
-            background-image: url('Image/BackPic.jpg');
+            /* 修改点1：替换为 GitHub 图片的 raw 绝对路径，确保远程可访问 */
+            background-image: url('https://github.com/posterisbigger/today-life/raw/master/Image/BackPic.jpg');
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
@@ -27,6 +28,8 @@
             color: #333;
             margin: 0;
             padding: 0;
+            /* 新增：添加背景色兜底，若图片加载失败不显示纯白页面 */
+            background-color: #FFF9E8;
         }
 
         /* 容器 */
@@ -43,6 +46,8 @@
             box-shadow: 0 4px 20px rgba(255, 165, 0, 0.1);
             padding: 30px;
             text-align: center;
+            /* 新增：卡片轻微透明，避免遮挡背景图过多，保留温馨风格 */
+            opacity: 0.95;
         }
 
         /* 标题样式 */
@@ -203,6 +208,8 @@
                 password
             };
             localStorage.setItem('userInfo', JSON.stringify(userInfo));
+            // 新增：注册成功提示，提升用户体验
+            alert('注册成功！欢迎进入今日生活');
             enterMainPage();
         };
 
@@ -210,7 +217,6 @@
         const login = (username, password) => {
             const userInfo = getUserInfo();
             if (userInfo.username === username && userInfo.password === password) {
-                enterMainPage();
                 return true;
             } else {
                 return false;
@@ -224,7 +230,7 @@
 
             // 简单验证输入
             if (!username || !password) {
-                alert('请输入用户名和密码');
+                alert('请输入用户名和密码，不能为空哦');
                 return;
             }
 
@@ -238,6 +244,8 @@
                 if (success) {
                     // 登录成功，重置失败次数
                     setFailCount(0);
+                    alert('登录成功！欢迎回来');
+                    enterMainPage();
                 } else {
                     // 登录失败，更新失败次数
                     const failCount = getFailCount() + 1;
@@ -247,8 +255,10 @@
                     if (failCount === 3) {
                         alert('慢一点，把心放下来。做一个勇敢的试错者，而不是一个正确的退缩者。');
                     } else {
-                        alert('用户名或密码不匹配，请重新输入');
+                        alert(`用户名或密码不匹配，请重新输入（当前失败${failCount}次）`);
                     }
+                    // 新增：清空密码输入框，提升用户体验
+                    passwordInput.value = '';
                 }
             }
         });
