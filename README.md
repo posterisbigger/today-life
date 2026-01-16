@@ -1,53 +1,70 @@
-# 今日生活网站部署指南
+# 今日生活网站
 
-要让任何地方的人都能访问您的网站，您需要将HTML文件部署到互联网上的服务器。以下是使用Netlify进行免费部署的详细步骤：
+一个简单的单页面网站，使用HTML+CSS+原生JavaScript开发，所有数据使用浏览器localStorage存储。
 
-## 步骤1：准备文件
+## 功能说明
 
-确保您已经有完整的`index.html`文件，该文件包含了所有的HTML、CSS和JavaScript代码。
+1. **登录/注册功能**
+   - 首次使用时自动注册，将用户名和密码保存到localStorage
+   - 非首次使用时进行登录验证
+   - 登录失败次数达到3次时显示励志提示
+   - 登录成功后进入主界面
 
-## 步骤2：访问Netlify网站
+2. **核心按钮功能**
+   - 第1次点击：提示"今天会是美好的一天"
+   - 第2次及之后点击：提示"请不要把时间浪费在这里，请开始你精彩的一天吧"
 
-打开浏览器，访问 [Netlify](https://www.netlify.com/)
+## 如何让任何人访问您的网站
 
-## 步骤3：注册/登录Netlify账号
+以下是使用GitHub Pages部署网站的详细步骤：
 
-- 如果您还没有Netlify账号，点击右上角的"Sign Up"按钮进行注册
-- 如果您已有账号，点击"Log In"按钮登录
+### 步骤1：在GitHub上创建新仓库
 
-## 步骤4：使用拖放功能部署网站
+1. 打开浏览器，登录您的GitHub账号（使用提供的账号：posterisbigger@163.com）
+2. 点击右上角的"+"号，选择"New repository"
+3. 仓库名称可以设置为"today-life"或任何您喜欢的名称
+4. 选择"Public"（公开）仓库
+5. 不要勾选"Initialize this repository with a README"（因为我们已经有README文件了）
+6. 点击"Create repository"
 
-1. 登录后，在Netlify仪表板中找到并点击"Add new site"按钮
-2. 从下拉菜单中选择"Drop manually"
-3. 在弹出的窗口中，找到并拖拽您的`index.html`文件到指定区域
-4. 等待部署完成（通常只需几秒钟）
+### 步骤2：将本地仓库推送到GitHub
 
-## 步骤5：获取网站URL
+在本地仓库目录下（即包含index.html的文件夹），打开命令行工具，执行以下命令：
 
-部署完成后，Netlify会为您的网站生成一个唯一的URL（例如：https://your-site-name.netlify.app）
+```bash
+# 添加远程仓库地址（将your-username替换为您的GitHub用户名，your-repo-name替换为您创建的仓库名称）
+git remote add origin https://github.com/your-username/your-repo-name.git
 
-您可以通过以下方式获取和分享这个URL：
-1. 在部署完成页面直接复制URL
-2. 在Netlify仪表板的网站列表中找到您的网站，点击进入详情页，然后复制URL
+# 推送本地仓库到GitHub
+git push -u origin master
+```
 
-## 步骤6：（可选）自定义域名
+### 步骤3：启用GitHub Pages
 
-如果您想使用自己的域名访问网站，可以在Netlify仪表板的"Domain settings"中进行设置。
+1. 在GitHub仓库页面，点击"Settings"选项卡
+2. 向下滚动到"GitHub Pages"部分
+3. 在"Source"下拉菜单中，选择"master branch"
+4. 点击"Save"按钮
+5. 等待几分钟，刷新页面
+6. 在"GitHub Pages"部分，您将看到一个URL，例如：https://your-username.github.io/your-repo-name/
+
+### 步骤4：访问您的网站
+
+现在，任何人都可以通过上述URL访问您的网站了！
+
+## 本地运行
+
+如果您想在本地运行和测试网站，只需将index.html文件用浏览器打开即可。
 
 ## 注意事项
 
-1. 部署后，任何访问该URL的人都可以查看和使用您的网站
-2. 网站使用浏览器localStorage存储数据，每个访问者的数据都存储在他们自己的浏览器中，不会相互影响
-3. Netlify提供的免费计划对于个人网站来说已经足够使用
-4. 如果您需要更高级的功能，可以考虑升级到Netlify的付费计划
+1. 网站使用浏览器localStorage存储数据，每个访问者的数据都存储在他们自己的浏览器中，不会相互影响
+2. GitHub Pages提供的是免费的静态网站托管服务，非常适合个人网站
+3. 部署完成后，每次修改代码并推送到GitHub，网站会自动更新
 
-## 其他部署选项
+## 技术实现
 
-除了Netlify，您还可以使用以下服务部署静态网站：
-
-- [Vercel](https://vercel.com/) - 类似于Netlify，提供拖放部署功能
-- [GitHub Pages](https://pages.github.com/) - 免费托管，需要使用Git
-- [Cloudflare Pages](https://pages.cloudflare.com/) - 免费托管，支持拖放部署
-- [Surge](https://surge.sh/) - 简单的命令行部署工具
-
-选择最适合您需求的服务进行部署即可。
+- 纯HTML+CSS+原生JavaScript
+- 使用localStorage存储用户信息和点击次数
+- 浏览器原生alert弹窗
+- 温馨励志的暖黄色/浅橙色系设计风格
